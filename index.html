@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Binbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--hd:#1b3566;--g:#4caf50;--page:#d9d8d2;--bg:#ecebe6;--card:#fff;--tile:#f1f1ee;--ink:#17351f;--muted:#6b7a6e;--line:#e0dfd9;--or:#f57c00;--red:#d94040;--soft:#e3f1e4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#0a1410;--bg:#10201a;--card:#172a22;--tile:#1d3329;--ink:#e6f1e8;--muted:#9bb2a3;--line:#2a4034;--soft:#1f3a2a}}
+:root[data-theme="dark"]{--page:#0a1410;--bg:#10201a;--card:#172a22;--tile:#1d3329;--ink:#e6f1e8;--muted:#9bb2a3;--line:#2a4034;--soft:#1f3a2a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 Figtree,system-ui,sans-serif}
+h1,h2,h3,.dsp{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.1}
+.app{max-width:430px;margin:0 auto;background:var(--bg);min-height:100dvh;padding-bottom:92px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hd);color:#fff;display:flex;align-items:center;gap:10px;padding:12px 16px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:6}
+.logo{width:32px;height:32px;border-radius:9px;background:var(--g);display:grid;place-items:center}
+header h1{font-size:1.2rem;flex:1}
+.pill{background:rgba(255,255,255,.14);border-radius:99px;padding:5px 11px;font-weight:700;font-size:.85rem}.pill.g{background:var(--g)}
+main{padding:14px 16px}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:14px}
+.dark{background:var(--hd);color:#fff}
+.hi{font-size:1.6rem;color:var(--ink)}.sub{color:var(--muted);margin:4px 0 14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.st{background:rgba(255,255,255,.1);border-radius:14px;padding:10px 4px;text-align:center}
+.st b{display:block;font:800 1.3rem 'Bricolage Grotesque',sans-serif}.st small{font-size:.72rem;opacity:.8}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.act{background:var(--card);border:0;border-radius:16px;padding:12px 4px;font:600 .78rem Figtree;color:var(--ink);cursor:pointer;text-align:center}
+.act i{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;margin:0 auto 6px;color:#fff}
+.chal{background:var(--or);color:#fff;border-radius:20px;padding:16px;margin-bottom:14px}
+.bar{height:7px;border-radius:9px;background:rgba(0,0,0,.2);margin:10px 0 6px;overflow:hidden}.bar span{display:block;height:100%;background:#fff;border-radius:9px}
+.row{display:flex;gap:10px;align-items:center}.sp{justify-content:space-between}
+.item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;background:var(--tile);margin-top:8px;width:100%;border:0;color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.item[aria-pressed=true]{outline:2px solid var(--g)}
+.item small{display:block;color:var(--muted)}
+.frame{position:relative;height:210px;border-radius:24px;background:#0f1f15;border:1px solid #1e3a28;display:grid;place-items:center;color:#9bb2a3;text-align:center;padding:24px;overflow:hidden;font-size:.85rem}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame::before,.frame::after{content:"";position:absolute;width:34px;height:34px;border:3px solid var(--g);z-index:2}
+.frame::before{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:10px 0 0 0}
+.frame::after{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 10px 0}
+.btn{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;padding:14px;border-radius:99px;border:0;background:var(--g);color:#fff;font:700 1rem Figtree;cursor:pointer;margin-top:12px}
+.btn.o{background:var(--tile);color:var(--ink)}
+input[type=text],select,textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--tile);color:var(--ink);font:inherit}
+label.l{display:block;font-weight:700;font-size:.8rem;color:var(--muted);margin:12px 0 5px}
+:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.res{border-radius:16px;padding:14px;background:var(--tile)}.res.now{background:var(--soft);outline:2px solid var(--g)}
+.res small{color:var(--muted);font-weight:700}.res b{display:block;font:800 1rem 'Bricolage Grotesque'}.res p{margin:6px 0 0;font-size:.85rem}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--line);color:var(--muted);margin-top:6px}
+.verdict{margin-top:12px;padding:12px;border-radius:14px;font-weight:600;background:var(--soft)}.verdict.c{background:#fdebd3;color:#8a4600}
+.seg{display:flex;background:var(--tile);border-radius:99px;padding:4px;margin-bottom:14px}
+.seg button{flex:1;border:0;background:none;color:var(--muted);padding:9px;border-radius:99px;font:700 .9rem Figtree;cursor:pointer}.seg button[aria-pressed=true]{background:var(--hd);color:#fff}
+.post{padding:12px 0;border-top:1px solid var(--line)}.post:first-child{border-top:0}
+.reply{margin-top:8px;padding:8px 12px;border-left:3px solid var(--g);background:var(--soft);border-radius:0 10px 10px 0;font-size:.9rem}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.opts button{padding:14px 8px;border-radius:14px;border:2px solid transparent;background:var(--tile);color:var(--ink);font:700 .9rem Figtree;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.opts button.ok{border-color:var(--g);background:var(--soft)}.opts button.no{border-color:var(--red)}
+.tg{width:48px;height:28px;border-radius:99px;border:0;background:var(--line);position:relative;cursor:pointer}.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}.tg[aria-checked=true]{background:var(--g)}.tg[aria-checked=true]::after{left:23px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);background:var(--card);display:flex;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));border-radius:24px 24px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.08);z-index:5}
+nav a{flex:1;text-align:center;text-decoration:none;color:var(--muted);font:600 .7rem Figtree;padding:8px 0;border-radius:99px}
+nav a svg{display:block;margin:0 auto 2px}nav a[aria-current=page]{background:var(--soft);color:var(--hd)}
+.hidden{display:none}.foot{text-align:center;color:var(--muted);font-size:.78rem;padding:4px 12px 14px}
+.ob{position:fixed;inset:0;z-index:20;background:linear-gradient(#25427a,#132347);color:#fff;display:flex;justify-content:center;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}.ob.hidden{display:none}
+.ob>div{width:min(430px,100%);display:flex;flex-direction:column;padding:20px}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:8px}.dots i{width:7px;height:7px;border-radius:9px;background:rgba(255,255,255,.3)}.dots i.on{width:26px;background:var(--g)}
+.obm{flex:1;display:flex;flex-direction:column;justify-content:center}.ob h2{font-size:1.8rem}.ob .big{width:96px;height:96px;border-radius:28px;margin:0 auto 20px}.ob .big{background:none}.ob .big img{width:100%;height:100%;border-radius:28px}
+.ob input{background:rgba(255,255,255,.12);color:#fff;border:2px solid var(--g);font-size:1.1rem;padding:16px}.ob input::placeholder{color:rgba(255,255,255,.55)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}.chip{padding:11px 18px;border-radius:99px;border:0;background:rgba(255,255,255,.14);color:#fff;font:700 .95rem Figtree,sans-serif;cursor:pointer}.chip[aria-pressed=true]{background:var(--g)}
+.obl{list-style:none;padding:0;margin:0 auto}.obl li{padding:7px 0 7px 30px;position:relative;font-weight:600}.obl li::before{content:"";position:absolute;left:0;top:11px;width:16px;height:16px;border-radius:50%;background:var(--g)}
+.gtabs{display:flex;background:var(--tile);border-radius:99px;padding:4px;margin-bottom:14px}.gtabs button{flex:1;border:0;background:none;color:var(--muted);padding:9px 4px;border-radius:99px;font:700 .82rem Figtree,sans-serif;cursor:pointer}.gtabs button[aria-pressed=true]{background:var(--hd);color:#fff}
+.ob .lnk{background:none;border:0;color:rgba(255,255,255,.7);font:600 .9rem Figtree,sans-serif;cursor:pointer;padding:12px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="bin" viewBox="0 0 44 48"><rect x="4" y="9" width="36" height="6" rx="2" fill="currentColor"/><rect x="16" y="4" width="12" height="6" rx="2" fill="currentColor"/><path d="M8 17h28l-2.5 27a3 3 0 0 1-3 2.7h-17a3 3 0 0 1-3-2.7z" fill="currentColor"/><path d="M17 23v17M22 23v17M27 23v17" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/></symbol></svg>
+<div class="ob" id="ob" role="dialog" aria-modal="true" aria-label="Welcome to Binbook"></div>
+<div class="app">
+<header><span class="logo" style="background:none"><img src="data:image/webp;base64,UklGRk4TAABXRUJQVlA4WAoAAAAQAAAAvwAAvwAAQUxQSMYAAAABDzD/ERHCbWxbcfMY2SakBEpRaVAapVACoVcIPhqul9gT0f8JkKQyFjcd9pV0UMbyNruuxVlfS5M8QGcq4U0jgrkS0XQimYFKyoyTCrNJlfFSY4J0ZaL0ZHapM+kdA1amXKE2rlKea1TgrlT8vCe1f16n0u8bf293Kv2+J7V/3pWKn9eowFXKc4XauEw5UVJn0juezC5dmSg1JkiV8VJhNikzThIjSZ1I5kpE04hgKuFNJpxRX0uaXtfirKxtM/WVpMOyshlWUDggYhIAAJBMAJ0BKsAAwAA+MRiKQ6IhoRMKrRggAwSyoesQR4ACBj9LHapjvF86U9/d+ejyr4jvZeEHT/l883edL/PfrZ7kPMA/Wnzqv1J90X7b+oD+ff7r9mfex/yP7Fe6T+zeoB/bv9R1k/7jewP5cP7q/CL/Xf+f+5XtH////wdurvonb1/kPDXxjeefX/94Ohy9V9kvrv5ff1z90vk7/VeFvAC9Sf5L8s/yi9ZXuarL/5z1CPbP6D/iv7n+1X+A9O7UL8C/4X8lfoA/mX85/xv5W833557AX8o/oP+p/wH7W/5n40P8n/Kf5L/v/8j3H/Rv/H9wv+T/z//Of3b94/75////d90HsM9Dz9fCS6sSSNZlfFbh1Ok/ViIEMQ9VaZnr7lXmdUyJumTkFBcYziMbXVX9RotxScXa6v+tf8r3JFK5ca934wipR3rFUrkyzY4463CEGgaiwATozP3jBjRqQPAmbXuiJrZqtwHlH1IEJ1QhJ+2oJQRxNFAUTOGN5QPI6YMWAGYsptdr8hps/4qLYCZsINIBXMHjf4OUIs+oDgxOflcC8JOl1Ph1APA6PCuA71fLmDIEGKvVXBTzjgnITWJlvwr+XY8cCObkPcX01vEEfgI5ZhyLTqYdIrkaDAuibEbt6mkpenkmEmI6pgK5tSswy/Gjbf9LCYOFZUdjxyKn53yzVFZk8JHkMKGGV4LPMJ8NbFTRoToJ/kwOVsTBpXOGHwEEt3VpBHr7xhHq+Ec/EChlcJzg29kKpXGCi4FZCqDLpmztCs4srPrGZn8ZsQdLoMl/GIoKX/4jy+irVyfkD2SJ0dMgo0HnYNTXwAD+/s0xP/2/Nsp70XUYZMtZTpx3LI1Wa/4pNck+ybSezWjxg1dT22jCFRS0m80egLRQhrLogD6kgcUuZCD6UbA+UZbL/t8AgJe4eJuC4fEaDpMR5hzQYCSarNBKrb8KR4R508VXx/Eovbqv+HpCd4joD4qI7y3VF/92B//8y1//zDt//8wMrp5plkGwKhGYYtutIjn/dRne/5v/jBgwidKZDb5JBryZkwj6ZhFzmfhMT2be6O3SikjAy/qHFismeapJPG1dVhtluD59wW/9nO3sgdPk0giC88Hon4BIPIS+aaoMjO1qsPmCtZvN6h/TR4EgxAuTbkxa2wwl1xR7NxDaILUHo0fuQO+DzkNohktqeCLXmbKFZ6D66YGIJqYulawYiXXpEklXY8MmTEmz8Rt4Kq4EGmk5a4oNfMDNIbQh+n29zpI+qoA3BYPkcDY5HhnShz1m5fYyOVN90PPgAFOFHa5O9imUnNfbQMapITVFqwlKlinBJszzP63gG4QCYSMD7J8/EFK6JXnXdBy1N+F+JNLYn8ic0cu418t+h0WHDiBsljj3YVjnOguf53u4SCaBSAkyySBML3Bn0aWmx72IjwPhzaw535I9EqtJ3Bjfn9P4nCkL1up7v6qXHv1oI4RPDT0+vK598DzIvBcy/JFEeCSjSEok658/TX3R2BL1iKK/LnDAM8w9jQggqQMqPbqBPXwRzPWM8+8CIuTqYuneEL7mKP1Qp6+p/Zxv3P9xtFJdh69s6uvsoKsvdX+ovyDuKQP03keLgtFKBuDd3QYOT5dBa8Mos/MiNzDY2FdgBD+Vj6XYmhseZTJ7SV0NR2/pExxj43wj6yZiGFnf1qn2E495l6TyskPWqL1/lS9QlTD9OV/2bciCN61F+cpze3l73A+4DdAAAvYejc8mnzDilc06YdVM87UrJLHCH0rM6y4p1gdFMuGCp0UJKB7UPTNkQidx+ncJkz8v+IvKL3h8+lx5ISkQ+IDB7kDFzxlFBG451t45YbxaIYWNXZSGrxHEIhaparlKAZ61l9AyaasM9doNX9aPXs8zqeKqQL1JpsKjAa77PT0SUpPLp+YVXK7SkPzPD8Qfb8+mUSCMNXSkJy3SWOFucofYiDgefOmJ+pQaYxrV7Cdbrautfznx9thxH9m8jGqLSYgtMAXx+S3ax3dGqK9Kj290x0Q1AhJed85qmDHP1KqA+MT35sjGP3WUggtbh5ZmmE6WYjjGj+RYZStw48+v71YCn00QUCxQDd5+eK+XdO3MEoN+OG5qSD9QXj8PUuc/TNq2ENwlAcc5x/jh9zChvmoXNnJZ51HwfeGKE+8zwwZsx4YsmFoNbZUhaLMiPeaP/wFYD6Lr4PXvsO2/0hlbZMhCS+YQKb8gd17jTOSgjJ4SXvYRii580zZjNB4/CuKPBGrTTve7b19hjwuHuupy+EC33PdnLm6w9+5foQkSEnuq494PKbiTE2W+VA+mo3Mx9jk+GT0AuUUiBQdqRXrFv2t9w3wd6m+pM/+2P4ODTAlLq/N9oMwUjZhayylkDTXmj2WHc8Ta3fz8G5a2+rMoB25guxTtZzfy2zccFGVCJ9CpxugNcP5/FnG+DsZrEi2UrnhW7v0mB/oCkocejDLCP3Ehu5fT21N8cD2VPW13FBbDX90ev4g+lr+IvH5MmkAFQy+a6bY/eFfZkH96w7jGg/+rSGV7IPJu6P0IfD1sNm2VXnGvT49o0++Gf5NOyE8mYlTE4K7oGkm/BExTPyncoN7qS5CpldZmPUwwOWOHc+GwFkSgJpk66xfITRzyEqM29u+/VOuZSpCSVQbSWBf/wRUAEnEeR6OpAku8Y4PBClqQ1wQfGiFFGkyifvebERg/PKSuprYlWtsLfsVuZXElmUTnHjhkjvSxJirkB7oj+nQNXYhPB+/+FsVV0AtM577spL4Zf7YcvNYZ8MAArph1EY1KabL/9OpWtdTeM1H0BfEDlij/bx24W/v5UfJz3u3D7tg7i368FJ8vq9aUFf1lTTyTXuxoJQsfFxJ/J3OXMi2X5O8n+dtrIH8/SaQTvSVjVC1xVQ8tfCBQ/0pRAcmYnTmSATS8L3xY4gwUXV3pRFXI6e//vw2CejAZvhHyTxQjcyPHWjfQcumOyHvfsYwOU3wTp9qvg90EVYolFH8bGhAdf0MVRQwdzGLiOtOteGwyQZspw+HluV5LSEQwrzJ132L1p3nP+cy2t/5K4Fv2TmqSREMG9hr/tTPyElx24b8/m3rc8kIJROO40oi5zE8Gzu4BD21pd7b4TaXbCFzo3/5Vy31EyuWwxeJMNumSaSNHr/ghUY+2saSLQ2J3zV9Hjs1YJmcCOvygGGexBpGl0IFZYnDSMGOtGOzXaVC4iH/4VcS0qsz//Jxt//Le94JIlunTmBQk01SXlL061G8HgmvBhdZMqJAmqhYU80+Nq7d921BsCOjrCf7Q4AjSulDy0yY2JRBPtAvj2JqPJJjLhyPThEK7RJ1mqAb+qMTOX3IbD917HO62TdDEAQ+IXC8pKKbONGPo1UT7dB5HucH/1OOe+ozO3acKDjahAuW8uKJFDojPzbikAXW8bwUujZz8fh2iVvE2c25AkGHAcwHULqcCLo1TaU1xfiFW1nyrK9iAq9qYc0BE4OtKmsn97Fnq7jh3oxAN/WEJ1m35/8et1Ak+/OkWJdCb0FYFreiSNHR5eO4xS6jAs4wLNPeoT7PjHsu8RfinygsgyoxGN0wGYNLIJ/gFcp4AofOLyLrcHx2vFkUEy2tiifUDqpueFeEijrz4lUC40KBk2D3kVQ1WZdhiQwRAalTT1DZTyLqnCNx4XaqkfrVthHRvN+upoQlXphEnQCxB6OD8/wfe6WMOs3lO2KjudCaqRYzHEFvwQ4xZDfvwtD1CX5SuYjGba7TVqKcXX3nwytqtyENClS0okweW30UjZY8On/GVKQKcF0gdVkF6vW3c3cPSmoIcBkjpbd984Hxzj55ZCbR8FK1DpWOb/61XV+8wUoEU5C4D9uFLxfklplkSPxwONCvNRVO3YCvk1ItM1e1NQfa36xFA9MnDUks967PZ/jlrgC21o6GzQkMXUlO6kK+D2lpNRWJPkoT2Kj+sstiYASiaVdQQuxDxPjrwZn78dd6glYRGCkip2iSDCQDCPWUcJ8rxaEW+UJDU96C1T/VAtezVYqFgA2WlRSvVUsDID/QhoeES4NlsIql5KbAoz1oLtTllqF2fJhe3RUix/sVWnpII0UAQyTgTTp4YoZCvGQ/EM+xQtWAZnyU31DWjQQ4zz0bG3rQlFH5pyn0s4fAKXedk0cO2HgowECFFWARtI5Z+rwqA6MEZqKUbehIVTEP/mGG9Y8P/Xa3IC0E2NoVoQRlJnCXi5hO6mRG8riiAK+xBBBWuS8uQ8xJ5BWRqQVvxFzOU2BXDGuxiw3QIsipYJ/YbbjFmld1yFDsAKZI7IqxxwbSUdvyMsOzlHPuAPnAYEMn57qyYkBgR+oa7lo5DXRV60qeUsg4mEzOghlAi8wq9L+0cu2+QV0ftemuCYa+KZwYjFSrWd4s4rVWhHnRZMDl9edEOGbInATyikNbqW4OabNPec+rqKAkkpDUQPkb3M1FYqaTx1MGx5bi8RsC48a/YRUv5lRObEm5CCLvmGnP03knRsNLwh+T/NKn/cQT+puXe1g23me+K51NNgmZgCXgzbVWyNmLABsPFVK2xZ+8mVy1PCaO7F1PY9J8I/B9gu226L0hfcddMT9yQdv2eCxUA9vMQLHnttiDsB31gVcyboMy9scdKMdGz+4g193dmnqnwrFLfaldumQf8fUykzzTq6tizZ8w9oXDgJZ1/+TyDaB3sLYI0ZH+EmpZY6/tb4PmYuUOGSDypx3APYeSqqvgbjec6HiEMc6sUIcPYqan65VACMUA9kcFTcyk4/3PrSDekVFZevtlHGNR9/S/05IKDKMYjySkswM5CSER+687sYf5m6tPmggcHT8+jxOuOXGXWG9JrwWJIMRyPwfAWzddaZTWUifbBIz5eGbdylP19eyJY90sbpoW/846W8zdrmqSteEjOcIjWBLU6SojY61K0DNu2mWEvCJJ2m9b29Rmz3w32wCxM5keHrMsLKptPBBQC3u/2mauFOkFbKpkvWdUzzsqdgguNtwuHAKumqw6soAg2cwwKij7g71lHMlJjHJxPBZ6UzUk4PEj+doANsoVQjhxj7vGV8j0R13ilGIqMSdkm087Gu73fDElJf8mNaAbwyOh9SrDznpi5usaVP3p6P0YtgDDJEDGVRwZJkyIESd5ePvvk+BI17CbWk0q93LRPYLzAVweRc8q8VU+Tp4qfOoMwSzUYvG2pw5zLt0X9qbLwQmb0qHHmNh+GQCYiCt8CsS6z8+4QB4OCepTGYCDH54ek52EoBEz05Eh7aVwYT875QADJDdAPlTejgan20wvlCUkgJqgFPnzyGN9qhVOkGncfAO/LIZljXxgPHUXjcDTb/weqpPK2oT2/oChSIfXc6uhDdiNPJ9iW+ZCZNHQv7i3qTXGejAoOAr48tUgXudWoMR1zxFeoPltlEmTUL5rDt14jmzpo0grjxDeL8KdcCj44TlBYsIs6y1lQqyXMfzH4UUCWSvA7/6yIynuIsg/O/1vNd7rj26PD2mUdl/Q1+D5ZJwmJ8LvtoVrEWVBlFyyf8jJ2exJVWL8r+xm8ROcTzixWqe7MsRCCyNe5zv52ggIfCq7EALpitpCEXbiUc4JOWly1LbHprgNwfeFzKTniRL/nnLdX/f1C8BilrN4r8d1gKHWfit/7YdsD/34F9ZZG+iUAKOmGICAdW18fkRhiOrEBbf8uapJmDgjVEB1+/kNDg7TSCt9HIz/mhEp/ksrFbwiqpLo/vHd2o9xQyFzgs2TIXdRPsaLgzsVtICga24AovD7QkSVXNKiiSW3D679Y4KamxR+5oBLV6sFRdz11T+oF6gv++moSKpvpgUQokCAr+Kgts6BuEmI/pQ0K3euGpvgUjmtw3JApEmNSUNfjzK6qrb4ZmzHpwTfp9B4AzvLkK9V/4Jp81yGiTt+ZybaHOlEPmTqq15c0uhYJE0J7C36fMVVVyVg532TBFZt/nfhRXeFq7HVE8znhGwFmaeQ7lQpHcMNFWfRE1jFJQZth6KOMTLz9/8WNNTvF/drUd74Kc4rs5ZzUM4KpEv9lwt7MF97T6zAef6cgHXcZIFWBSb2dyDMfqivfRWCEa5LmUJhcnq3ZJOxZnmVYx8FDE2EVheZ7NfgIw+Vx2fHgsOgqWVlgmdsmG2S9yXXvJM3Fj2v0FVcnb3DgMZMoDRTRyNqOBKTP5sKgmd05ioj83cls2tLf7TOrAAhAf/oTHINVLLRPyvIIDOZFcnUfviy/udI+LuBaLfvNVoirs+0c9aK+uxIOXXGvV4LcP9/CKSh3Z/9HqKButKChelgTf74UAAAA" alt="Binbook logo" width="32" height="32" style="border-radius:9px"></span><h1 id="ttl">Binbook</h1><span class="pill" id="pst">1 day</span><span class="pill g" id="ppt">0 pts</span></header>
+<main>
+<section id="v-home">
+  <h2 class="hi" id="hi">Hello</h2><p class="sub">New in <span class="cn"></span>? Learn which bin to use in your first week.</p>
+  <div class="card dark"><b class="dsp" style="font-size:1rem">YOUR IMPACT</b><div class="stats" id="stats"></div></div>
+  <div class="acts">
+    <button class="act" data-go="scan"><i style="background:var(--g)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/></svg></i>Check</button>
+    <button class="act" data-go="community" data-seg="reuse"><i style="background:#8d6e63"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16v12H4zM9 8V5h6v3"/></svg></i>Reuse</button>
+    <button class="act" data-go="play"><i style="background:var(--or)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 4h8v5a4 4 0 0 1-8 0zM12 13v4M8 20h8"/></svg></i>Play</button>
+    <button class="act" data-go="community" data-seg="q"><i style="background:#26a69a"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v11H9l-5 4z"/></svg></i>Ask</button>
+  </div>
+  <div class="chal"><small style="font-weight:700;opacity:.9">WEEKLY CHALLENGE</small><h3 style="font-size:1.3rem;margin-top:4px">Sort like a local</h3><div class="bar"><span id="cb"></span></div><small id="ct"></small></div>
+  <div class="card"><h3 style="font-size:1.1rem">Different from <span class="pn"></span></h3><div id="chg"></div></div>
+</section>
+
+<section id="v-scan" class="hidden">
+  <div class="frame" id="frame"><span>Take a photo of an item, then confirm the closest match.<br>Photo matching is simulated in this demo.</span></div>
+  <label class="btn" for="photo" style="cursor:pointer">Scan with camera</label>
+  <input type="file" id="photo" accept="image/*" capture="environment" class="hidden">
+  <label class="l" for="q">Or describe it</label><input type="text" id="q" placeholder="e.g. frying pan, jam jar">
+  <div id="sg" role="group" aria-label="Matching items"></div>
+  <div id="res" aria-live="polite"></div>
+</section>
+
+<section id="v-play" class="hidden">
+  <div class="gtabs" role="group" aria-label="Games"><button type="button" data-g="sort" aria-pressed="true">Sort it</button><button type="button" data-g="swap" aria-pressed="false">Same or different</button><button type="button" data-g="rush" aria-pressed="false">Bin rush</button></div>
+  <div class="card" id="g-sort"><h2 style="font-size:1.3rem">Sort it</h2><p class="sub" style="margin-bottom:0">Where does this go in <span class="cn"></span>? +10 pts for a correct answer.</p>
+    <div class="dsp" id="qz" style="font-size:1.5rem;margin:16px 0 4px"></div><div class="opts" id="qo"></div><div id="qf" class="verdict hidden"></div><button class="btn hidden" id="qn">Next item</button></div>
+  <div class="card hidden" id="g-swap"><h2 style="font-size:1.3rem">Same or different?</h2><p class="sub" style="margin-bottom:0">Does this item go in the same bin in Madrid and Bremen? +10 pts for a correct answer.</p><div class="dsp" id="sw-i" style="font-size:1.5rem;margin:16px 0 4px"></div><div class="opts" id="sw-o"><button type="button" data-a="same">Same bin</button><button type="button" data-a="diff">Different bin</button></div><div id="sw-f" class="verdict hidden"></div><p class="sub" id="sw-s" style="margin:10px 0 0">Streak: 0</p><button class="btn hidden" id="sw-n" type="button">Next item</button></div>
+  <div class="card hidden" id="g-rush"><h2 style="font-size:1.3rem">Bin rush</h2><p class="sub">Sort as many items as you can in 30 seconds. A wrong answer costs 2 seconds. +2 pts per correct sort.</p><div class="row sp"><b id="ru-s">Score: 0</b><b id="ru-t">30 s</b></div><div class="bar" style="background:var(--tile)"><span id="ru-b" style="width:100%;background:var(--g)"></span></div><div id="ru-p" class="hidden"><div class="dsp" id="ru-i" style="font-size:1.5rem;margin:12px 0 4px"></div><div class="opts" id="ru-o"></div></div><p class="sub" id="ru-f" style="margin:12px 0 0"></p><button class="btn" id="ru-go" type="button">Start</button></div>
+</section>
+
+<section id="v-community" class="hidden">
+  <div class="seg"><button data-s="q" aria-pressed="true">Questions</button><button data-s="reuse" aria-pressed="false">Reuse</button></div>
+  <div id="s-q">
+    <div class="card"><label class="l" for="fq" style="margin-top:0">Search first</label><input type="text" id="fq" placeholder="e.g. batteries, pizza box"><div class="sub" id="fm" style="margin:8px 0 0"></div>
+      <label class="l" for="fn">Ask a new question</label><textarea id="fn" rows="2" placeholder="Which item are you unsure about?"></textarea><button class="btn" id="fp">Post question</button></div>
+    <div class="card" id="fl"></div>
+  </div>
+  <div id="s-reuse" class="hidden">
+    <div class="card"><p class="sub">Leaving? List what still works. Arriving? Reserve it and arrange a handover.</p><div class="row"><input type="text" id="rn" placeholder="Item, e.g. desk lamp" aria-label="Item"><button class="btn" id="ra" style="width:auto;margin:0;padding:12px 18px">List</button></div></div>
+    <div class="card" id="rl"></div>
+  </div>
+</section>
+
+<section id="v-profile" class="hidden">
+  <div class="card dark"><div class="row"><span class="logo" style="width:56px;height:56px;border-radius:16px;font:800 1.6rem 'Bricolage Grotesque'" id="av">A</span><div><h2 id="pn2" style="font-size:1.5rem">Alex</h2><small style="color:#8fd694;font-weight:700">Newcomer · Level 1</small></div></div></div>
+  <div class="card"><h3 style="font-size:1.1rem;margin-bottom:6px">Settings</h3>
+    <label class="l" for="nm">Name</label><input type="text" id="nm" value="Alex" maxlength="20">
+    <label class="l" for="cur">I live in</label><select id="cur"><option value="madrid">Madrid</option><option value="bremen">Bremen</option></select>
+    <label class="l" for="prev">I used to live in</label><select id="prev"><option value="">Not set</option><option value="madrid">Madrid</option><option value="bremen">Bremen</option></select>
+    <label class="l" for="lang">Language</label><select id="lang"><option value="en">English</option><option value="es">Español</option><option value="de">Deutsch</option></select>
+    <div class="row sp" style="margin-top:16px"><b>Dark mode</b><button class="tg" id="tg" role="switch" aria-checked="false" aria-label="Dark mode"></button></div></div>
+  <button class="btn o" id="rp" type="button">Replay onboarding</button>
+  <p class="foot">Prototype. Entries marked “verify” still need checking against official guidance from Madrid City Council and Die Bremer Stadtreinigung.</p>
+</section>
+</main>
+<nav id="nav"></nav>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)},Q=function(s){return [].slice.call(document.querySelectorAll(s))};
+var BINS={yellow:{c:'#e8b800',n:{en:'Yellow bin',es:'Contenedor amarillo',de:'Gelber Sack'}},green:{c:'#2e8b57',n:{en:'Glass container',es:'Contenedor verde (vidrio)',de:'Glascontainer'}},general:{c:'#6b7280',n:{en:'General waste',es:'Contenedor general',de:'Restmüll'}},station:{c:'#2f6fb5',n:{en:'Recycling station',es:'Punto limpio',de:'Recyclingstation'}},brown:{c:'#7b4a2b',n:{en:'Brown bin (organic)',es:'Contenedor marrón (orgánico)',de:'Biotonne'}},textile:{c:'#8e44ad',n:{en:'Clothing container',es:'Contenedor de ropa',de:'Altkleidercontainer'}}};
+function R(b,en,es,de,v){return{b:b,v:v,t:{en:en,es:es,de:de}}}
+var ITEMS=[
+{id:'carton',n:{en:'Milk or juice carton',es:'Brik de leche o zumo',de:'Milch-/Saftkarton'},k:'milk juice carton brik karton',madrid:R('yellow','Rinse and flatten it.','Enjuaga y aplasta.','Ausspülen und flachdrücken.'),bremen:R('yellow','Empty it. It goes with lightweight packaging.','Vacíalo. Va con los envases ligeros.','Leeren. Zu den Leichtverpackungen.',1)},
+{id:'jar',n:{en:'Glass jam jar',es:'Tarro de cristal',de:'Marmeladenglas'},k:'jam jar glass tarro glas',madrid:R('green','Jar in the green bin. The metal lid goes in the yellow bin.','Tarro en el verde. La tapa metálica en el amarillo.','Glas in den Glascontainer, Metalldeckel separat.'),bremen:R('green','Jar in the glass container, sorted by colour. Lid with packaging.','Tarro en el contenedor de vidrio, por color. Tapa con envases.','Glas nach Farbe sortieren, Deckel zu den Verpackungen.',1)},
+{id:'pan',n:{en:'Small metal frying pan',es:'Sartén metálica pequeña',de:'Kleine Metallpfanne'},k:'pan frying sartén pfanne metal',madrid:R('yellow','Yellow bin, if it fits through the opening.','Contenedor amarillo, si cabe por la abertura.','Gelbe Tonne, wenn sie durch die Öffnung passt.'),bremen:R('station','Take it to a municipal recycling station.','Llévala a un punto de reciclaje municipal.','Zur städtischen Recyclingstation bringen.')},
+{id:'glass',n:{en:'Drinking glass',es:'Vaso de cristal',de:'Trinkglas'},k:'drinking glass vaso cup glas',madrid:R('general','Not packaging glass. It goes in general waste.','No es vidrio de envase. Va al contenedor general.','Kein Verpackungsglas. In den Restmüll.'),bremen:R('general','Not packaging glass. Residual waste.','No es vidrio de envase. Resto.','Kein Verpackungsglas. Restmüll.',1)},
+{id:'mug',n:{en:'Ceramic mug',es:'Taza de cerámica',de:'Keramiktasse'},k:'mug ceramic taza cerámica tasse',madrid:R('general','Ceramics go in general waste.','La cerámica va al contenedor general.','Keramik in den Restmüll.'),bremen:R('general','Residual waste. Consider donating it first.','Resto. Piensa en donarla.','Restmüll. Besser spenden.',1)},
+{id:'box',n:{en:'Wooden strawberry box',es:'Cajita de madera de fresas',de:'Holzschale für Erdbeeren'},k:'strawberry box wooden fresas madera erdbeeren holz',madrid:R('yellow','Small wooden packaging goes in the yellow bin.','El envase pequeño de madera va al amarillo.','Kleine Holzverpackung in die gelbe Tonne.'),bremen:R('general','Not confirmed. Berlin excludes it from recyclables, so check Bremen’s rule.','Sin confirmar. Berlín lo excluye; comprueba la norma de Bremen.','Nicht bestätigt. Berlin schließt es aus; Bremer Regel prüfen.',1)},
+{id:'bio',n:{en:'Fruit and veg scraps, coffee grounds',es:'Restos de fruta y verdura, posos de café',de:'Obst-/Gemüseabfälle, Kaffeesatz'},k:'bio organic fruit veg vegetable peel coffee grounds eggshell orgánico fruta verdura posos biomüll bioabfall kaffeesatz',madrid:R('brown','Brown-lid bin. Also eggshells and used paper napkins.','Contenedor de tapa marrón. También cáscaras de huevo y servilletas usadas.','Braune Tonne mit braunem Deckel. Auch Eierschalen und gebrauchte Servietten.'),bremen:R('brown','Organic bin (Biotonne), emptied every 14 days. Optional in Bremen, or drop it at a recycling station.','Biotonne (orgánico), vaciada cada 14 días. Es opcional en Bremen; o llévalo a una Recycling-Station.','Biotonne, Leerung alle 14 Tage. In Bremen freiwillig; oder an der Recycling-Station abgeben.')},
+{id:'cloth',n:{en:'Clothes and shoes',es:'Ropa y calzado',de:'Kleidung und Schuhe'},k:'clothes clothing shoes textile shirt jacket ropa calzado kleidung schuhe altkleider textil',madrid:R('textile','Donate it if still wearable, or use a clothing container or Punto Limpio.','Dónala si está en buen estado, o usa un contenedor de ropa o un Punto Limpio.','Spenden, wenn noch tragbar, oder in einen Kleidercontainer bzw. zum Punto Limpio.'),bremen:R('textile','Use an old-clothes container or take it to a recycling station. Not residual waste.','Usa un contenedor de ropa o una Recycling-Station. No va a resto.','In den Altkleidercontainer oder zur Recycling-Station. Nicht in den Restmüll.')},
+{id:'food',n:{en:'Mixed food leftovers',es:'Restos de comida mezclados',de:'Gemischte Speisereste'},k:'food leftovers cooked mixed meal comida restos speisereste essen',madrid:R('brown','Cooked and raw leftovers go in the brown bin. Remove packaging first.','Los restos cocinados y crudos van al marrón. Quita el envase antes.','Gekochte und rohe Reste in die braune Tonne. Verpackung vorher entfernen.'),bremen:R('brown','Leftovers go in the Biotonne if you have one, or to a recycling station. Packaging goes separately.','Los restos van a la Biotonne si tienes, o a una Recycling-Station. El envase aparte.','Speisereste in die Biotonne oder zur Recycling-Station. Verpackung getrennt.')}];
+var CITY={madrid:'Madrid',bremen:'Bremen'},S={pts:0,checks:0,right:0,seen:{},item:null,qi:null};
+var LB={now:{en:'Where you live now',es:'Donde vives ahora',de:'Wo du jetzt wohnst'},was:{en:'Where you lived before',es:'Donde vivías antes',de:'Wo du vorher gewohnt hast'},same:{en:'Same bin as before. Your habit still works here.',es:'Mismo contenedor que antes. Tu hábito sigue valiendo.',de:'Gleiche Tonne wie zuvor. Deine Gewohnheit passt.'},chg:{en:'This is different from your old city.',es:'Esto es distinto a tu ciudad anterior.',de:'Das ist anders als in deiner alten Stadt.'},v:{en:'verify',es:'verificar',de:'prüfen'},none:{en:'No match. Try another word or ask the community.',es:'Sin coincidencias. Prueba otra palabra o pregunta a la comunidad.',de:'Keine Treffer. Anderes Wort oder die Community fragen.'}};
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function L(){return $('lang').value}function C(){return $('cur').value}
+function P(){var p=$('prev').value;return p&&p!==C()?p:(p?'':'')}
+function other(){return C()==='madrid'?'bremen':'madrid'}
+function bi(b,s){return '<svg width="'+(s||24)+'" height="'+((s||24)*1.09)+'" style="color:'+BINS[b].c+';flex:none" aria-hidden="true"><use href="#bin"/></svg>'}
+function pts(n){S.pts+=n;refresh()}
+function refresh(){$('ppt').textContent=S.pts+' pts';
+ $('stats').innerHTML=[[S.checks,'Items checked'],[S.right,'Correct sorts'],[S.pts,'Points'],[1,'Day streak']].map(function(a){return '<div class="st"><b>'+a[0]+'</b><small>'+a[1]+'</small></div>'}).join('');
+ var n=Math.min(S.checks,5);$('cb').style.width=n*20+'%';$('ct').textContent=n+'/5 items checked · 100 pts';
+ var nm=$('nm').value.trim()||'there';$('hi').textContent='Hello, '+nm;$('pn2').textContent=nm;$('av').textContent=nm[0].toUpperCase();
+ Q('.cn').forEach(function(e){e.textContent=CITY[C()]});var pv=$('prev').value||other();Q('.pn').forEach(function(e){e.textContent=CITY[pv]});
+ var h='';ITEMS.forEach(function(it){if(it[pv].b!==it[C()].b)h+='<button class="item" data-i="'+it.id+'">'+bi(it[C()].b)+'<span><b>'+esc(it.n[L()])+'</b><small>'+CITY[pv]+': '+BINS[it[pv].b].n[L()]+' → '+BINS[it[C()].b].n[L()]+'</small></span></button>'});
+ $('chg').innerHTML=h||'<p class="sub">No differences yet.</p>';
+ Q('#chg .item').forEach(function(b){b.onclick=function(){S.item=b.dataset.i;go('scan')}});sg();res()}
+function match(q){q=q.toLowerCase().trim();if(!q)return ITEMS;var w=q.split(/\s+/);return ITEMS.map(function(it){var s=0;w.forEach(function(x){if(it.k.indexOf(x)>-1)s++});return{it:it,s:s}}).filter(function(m){return m.s}).sort(function(a,b){return b.s-a.s}).map(function(m){return m.it})}
+function sg(){var l=match($('q').value),b=$('sg');b.innerHTML='';if(!l.length){b.innerHTML='<p class="sub">'+LB.none[L()]+'</p>';return}
+ l.forEach(function(it){var x=document.createElement('button');x.className='item';x.type='button';x.setAttribute('aria-pressed',S.item===it.id);x.innerHTML=bi(it[C()].b)+'<span>'+esc(it.n[L()])+'</span>';
+  x.onclick=function(){S.item=it.id;if(!S.seen[it.id]){S.seen[it.id]=1;S.checks++;pts(5)}else refresh()};b.appendChild(x)})}
+function card(c,r,now){var b=BINS[r.b];return '<div class="res'+(now?' now':'')+'"><small>'+(now?LB.now[L()]:LB.was[L()])+' · '+CITY[c]+'</small><div style="margin:8px 0 4px">'+bi(r.b,36)+'</div><b>'+b.n[L()]+'</b><p>'+r.t[L()]+'</p>'+(r.v?'<span class="tag">'+LB.v[L()]+'</span>':'')+'</div>'}
+function res(){var o=$('res'),it=ITEMS.filter(function(x){return x.id===S.item})[0];if(!it){o.innerHTML='';return}
+ var c=C(),p=$('prev').value,two=p&&p!==c,h='<div class="card" style="margin-top:14px"><h3 style="font-size:1.2rem">'+esc(it.n[L()])+'</h3><div class="cmp" style="grid-template-columns:'+(two?'1fr 1fr':'1fr')+'">';
+ if(two)h+=card(p,it[p],false);h+=card(c,it[c],true)+'</div>';
+ if(two){var s=it[p].b===it[c].b;h+='<div class="verdict'+(s?'':' c')+'">'+(s?LB.same[L()]:LB.chg[L()])+'</div>'}o.innerHTML=h+'</div>'}
+$('photo').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){$('frame').innerHTML='<img alt="Your photo" src="'+r.result+'">'};r.readAsDataURL(f)};
+$('q').oninput=sg;['cur','prev','lang','nm'].forEach(function(i){$(i).oninput=function(){refresh();quiz(1)}});
+
+function quiz(keep){var f=$('qf');if(!keep||S.qi===null)S.qi=Math.floor(Math.random()*ITEMS.length);var it=ITEMS[S.qi];f.className='verdict hidden';$('qn').classList.add('hidden');
+ $('qz').textContent=it.n[L()];var o=$('qo');o.innerHTML='';
+ Object.keys(BINS).forEach(function(k){var b=document.createElement('button');b.innerHTML=bi(k,30)+BINS[k].n[L()];
+  b.onclick=function(){var ok=k===it[C()].b;Q('#qo button').forEach(function(x){x.disabled=true});b.className=ok?'ok':'no';
+   if(ok){S.right++;pts(10)}else Q('#qo button')[Object.keys(BINS).indexOf(it[C()].b)].className='ok';
+   f.className='verdict'+(ok?'':' c');f.textContent=(ok?'Correct. ':'Not quite. ')+it[C()].t[L()];$('qn').classList.remove('hidden')};o.appendChild(b)})}
+$('qn').onclick=function(){quiz(0)};
+
+var posts=[{q:'Does a pizza box go in the yellow bin in Madrid?',c:'Madrid',a:['Clean cardboard goes in the blue paper bin. Greasy parts go in general waste.']},{q:'Where do I take old batteries in Bremen?',c:'Bremen',a:[]}];
+function fr(){var q=$('fq').value.toLowerCase().trim(),l=posts.filter(function(p){return !q||p.q.toLowerCase().indexOf(q)>-1});$('fm').textContent=q?(l.length?l.length+' similar question(s) found.':'No similar question yet. Post it below.'):'';var h='';
+ l.forEach(function(p){var i=posts.indexOf(p);h+='<div class="post"><b>'+esc(p.q)+'</b> <span class="tag">'+p.c+'</span>';p.a.forEach(function(a){h+='<div class="reply">'+esc(a)+'</div>'});
+  h+='<div class="row" style="margin-top:10px"><input type="text" data-r="'+i+'" placeholder="Write a reply" aria-label="Reply"><button class="btn o" data-b="'+i+'" style="width:auto;margin:0;padding:12px 16px">Reply</button></div></div>'});
+ $('fl').innerHTML=h||'<p class="sub">No questions yet.</p>';Q('#fl button').forEach(function(b){b.onclick=function(){var i=+b.dataset.b,v=Q('#fl input[data-r="'+i+'"]')[0].value.trim();if(v){posts[i].a.push(v);pts(2);fr()}}})}
+$('fq').oninput=fr;$('fp').onclick=function(){var v=$('fn').value.trim();if(!v)return;posts.unshift({q:v,c:CITY[C()],a:[]});$('fn').value='';$('fq').value='';pts(3);fr()};
+var goods=[{n:'Desk lamp',by:'Leaving student',s:0},{n:'Kettle',by:'Leaving student',s:0}];
+function rr(){var h='';goods.forEach(function(g,i){h+='<div class="post row sp"><div><b>'+esc(g.n)+'</b><div class="sub" style="margin:0">'+g.by+'</div></div>'+(g.s?'<span class="tag">Reserved. Arrange handover.</span>':'<button class="btn" data-g="'+i+'" style="width:auto;margin:0;padding:10px 16px">Reserve</button>')+'</div>'});
+ $('rl').innerHTML=h||'<p class="sub">Nothing listed yet.</p>';Q('#rl button').forEach(function(b){b.onclick=function(){goods[+b.dataset.g].s=1;pts(5);rr()}})}
+$('ra').onclick=function(){var v=$('rn').value.trim();if(!v)return;goods.unshift({n:v,by:'You',s:0});$('rn').value='';pts(5);rr()};
+function seg(s){Q('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.s===s)});$('s-q').classList.toggle('hidden',s!=='q');$('s-reuse').classList.toggle('hidden',s!=='reuse')}
+Q('.seg button').forEach(function(b){b.onclick=function(){seg(b.dataset.s)}});
+$('tg').onclick=function(){var on=$('tg').getAttribute('aria-checked')!=='true';$('tg').setAttribute('aria-checked',on);document.documentElement.setAttribute('data-theme',on?'dark':'light')};
+
+var V=[['home','Home','M3 11l9-8 9 8v10h-6v-6H9v6H3z'],['scan','Scan','M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4'],['play','Play','M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v2a3 3 0 0 0 4 3M16 6h4v2a3 3 0 0 1-4 3M12 13v4M8 20h8'],['community','Community','M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 5a3 3 0 0 1 0 6M18 14c2 .7 3 2.7 3 6M9 5a3 3 0 1 0 0 6a3 3 0 0 0 0-6'],['profile','Profile','M12 4a4 4 0 1 0 0 8a4 4 0 0 0 0-8M4 21c0-4 3.5-7 8-7s8 3 8 7']];
+var TT={home:'Binbook',scan:'Scanner',play:'Play',community:'Community',profile:'Profile'};
+$('nav').innerHTML=V.map(function(v){return '<a href="#'+v[0]+'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+v[2]+'"/></svg>'+v[1]+'</a>'}).join('');
+function go(v){location.hash=v}
+function route(){var h=location.hash.slice(1);if(!TT[h])h='home';V.forEach(function(v){$('v-'+v[0]).classList.toggle('hidden',v[0]!==h)});$('ttl').textContent=TT[h];
+ Q('#nav a').forEach(function(a){if(a.getAttribute('href')==='#'+h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});window.scrollTo(0,0);if(h==='play'&&S.qi===null)quiz(0);refresh()}
+window.addEventListener('hashchange',route);
+Q('.act').forEach(function(b){b.onclick=function(){if(b.dataset.seg)seg(b.dataset.seg);go(b.dataset.go)}});
+var ob={s:0,name:'',cur:'madrid',prev:'',lang:'en'};
+function obChips(k,o){return '<div class="chips">'+o.map(function(x){return '<button type="button" class="chip" data-k="'+k+'" data-v="'+x[0]+'" aria-pressed="'+(ob[k]===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'}
+function obr(){var s=ob.s,m='',w='<p class="sub" style="color:rgba(255,255,255,.75)">';
+ if(s===0)m='<span class="logo big">'+document.querySelector('header .logo').innerHTML+'</span><h2 style="text-align:center;font-size:2.4rem">Binbook</h2><p style="text-align:center;color:#8fd694;font-weight:600;margin:6px 0 24px">Your city’s bin rules, in your language.</p><ul class="obl"><li>Check any item against your new city’s rules</li><li>See what changed from where you lived before</li><li>Earn points and join the community</li></ul>';
+ if(s===1)m='<h2>What should we call you?</h2>'+w+'We’ll personalise your dashboard.</p><input type="text" id="obn" placeholder="Your name" maxlength="20" aria-label="Your name" value="'+esc(ob.name)+'">';
+ if(s===2)m='<h2>Where are you now?</h2>'+w+'We’ll show the local rules for your city.</p>'+obChips('cur',[['madrid','Madrid'],['bremen','Bremen']])+'<h2 style="font-size:1.3rem">Where did you live before?</h2>'+w+'So we can show what changed.</p>'+obChips('prev',[['madrid','Madrid'],['bremen','Bremen'],['','Somewhere else']]);
+ if(s===3)m='<h2>Pick your language</h2>'+w+'You can change this anytime in Profile.</p>'+obChips('lang',[['en','English'],['es','Español'],['de','Deutsch']]);
+ var b=s===0?'<button class="btn" id="obx" type="button">Get started →</button>':'<div class="row"><button class="lnk" id="obb" type="button">Back</button><button class="btn" id="obx" type="button" style="margin:0;flex:1">'+(s===3?'Let’s go!':'Continue →')+'</button></div><button class="lnk" id="obs" type="button">Skip for now</button>';
+ $('ob').innerHTML='<div><div class="dots">'+[0,1,2,3].map(function(i){return '<i class="'+(i===s?'on':'')+'"></i>'}).join('')+'</div><div class="obm">'+m+'</div>'+b+'</div>';
+ Q('#ob .chip').forEach(function(c){c.onclick=function(){ob[c.dataset.k]=c.dataset.v;obr()}});
+ var n=$('obn');if(n){n.oninput=function(){ob.name=n.value};n.focus()}
+ $('obx').onclick=function(){if(s===3)obf();else{ob.s++;obr()}};
+ if($('obb'))$('obb').onclick=function(){ob.s--;obr()};
+ if($('obs'))$('obs').onclick=obf}
+function obf(){$('nm').value=ob.name.trim();$('cur').value=ob.cur;$('prev').value=ob.prev===ob.cur?'':ob.prev;$('lang').value=ob.lang;$('ob').classList.add('hidden');S.qi=null;location.hash='home';refresh()}
+$('rp').onclick=function(){ob.s=0;ob.name=$('nm').value;ob.cur=C();ob.prev=$('prev').value;ob.lang=L();$('ob').classList.remove('hidden');obr()};
+var G={sw:null,swS:0,ru:{on:0,t:30,s:0,i:0,best:0,iv:null}};
+function gShow(g){Q('.gtabs button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.g===g)});['sort','swap','rush'].forEach(function(k){$('g-'+k).classList.toggle('hidden',k!==g)});if(g==='swap')swp()}
+Q('.gtabs button').forEach(function(b){b.onclick=function(){gShow(b.dataset.g)}});
+function swp(){G.sw=Math.floor(Math.random()*ITEMS.length);$('sw-i').textContent=ITEMS[G.sw].n[L()];$('sw-f').className='verdict hidden';$('sw-n').classList.add('hidden');Q('#sw-o button').forEach(function(b){b.disabled=false;b.className=''})}
+Q('#sw-o button').forEach(function(b){b.onclick=function(){var it=ITEMS[G.sw],same=it.madrid.b===it.bremen.b,ok=(b.dataset.a==='same')===same;Q('#sw-o button').forEach(function(x){x.disabled=true});b.className=ok?'ok':'no';
+ if(ok){G.swS++;S.right++;pts(10)}else G.swS=0;
+ var f=$('sw-f');f.className='verdict'+(ok?'':' c');f.textContent=(ok?'Correct. ':'Not quite. ')+'Madrid: '+BINS[it.madrid.b].n[L()]+'. Bremen: '+BINS[it.bremen.b].n[L()]+'.';$('sw-s').textContent='Streak: '+G.swS;$('sw-n').classList.remove('hidden')}});
+$('sw-n').onclick=swp;
+function rushItem(){G.ru.i=Math.floor(Math.random()*ITEMS.length);$('ru-i').textContent=ITEMS[G.ru.i].n[L()]}
+function tick(){$('ru-t').textContent=G.ru.t+' s';$('ru-b').style.width=Math.max(0,G.ru.t)/30*100+'%'}
+function rushOpts(){var o=$('ru-o');o.innerHTML='';Object.keys(BINS).forEach(function(k){var b=document.createElement('button');b.innerHTML=bi(k,30)+BINS[k].n[L()];b.onclick=function(){var r=G.ru;if(!r.on)return;var ok=k===ITEMS[r.i][C()].b;if(ok)r.s++;else{r.t=Math.max(0,r.t-2);tick()}$('ru-s').textContent='Score: '+r.s;$('ru-f').textContent=ok?'Correct':'Wrong: −2 s';rushItem()};o.appendChild(b)})}
+function rushStart(){var r=G.ru;clearInterval(r.iv);r.on=1;r.t=30;r.s=0;$('ru-s').textContent='Score: 0';$('ru-f').textContent='';$('ru-go').classList.add('hidden');$('ru-p').classList.remove('hidden');rushItem();rushOpts();tick();r.iv=setInterval(function(){r.t--;tick();if(r.t<=0)rushEnd()},1000)}
+function rushEnd(){var r=G.ru;clearInterval(r.iv);r.on=0;if(r.s>r.best)r.best=r.s;S.right+=r.s;pts(r.s*2);$('ru-p').classList.add('hidden');$('ru-go').classList.remove('hidden');$('ru-go').textContent='Play again';$('ru-f').textContent='Time’s up! Score '+r.s+' (best '+r.best+'). +'+r.s*2+' pts'}
+$('ru-go').onclick=rushStart;
+fr();rr();route();obr();
+</script>
+</body>
+</html>
